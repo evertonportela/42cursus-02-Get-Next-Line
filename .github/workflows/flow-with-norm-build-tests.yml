@@ -1,0 +1,41 @@
+name: flow-with-norm-build-tests
+
+on:
+  push:
+      branches:
+        - main
+
+jobs:
+  norminette:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      
+      - name: install dependencies 
+        run: |
+          python -m pip install --upgrade pip setuptools
+          python -m pip install norminette 
+      
+      - name: Test with norminette
+        run: norminette
+  build:
+    name: build
+    needs: norminette
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: make
+        run: make
