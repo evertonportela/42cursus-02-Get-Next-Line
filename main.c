@@ -1,38 +1,41 @@
+#include <fcntl.h>				/* cntl = controle de arquivos = file control */
 #include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
+#include "get_next_line.h"
 
-#define BUFFER_SIZE 15
+int	main(void)
+{
+	int		fd;					/* Valores de 3 a 256 -> Valores de FD abertos, então utilizar inteiros */
+	char	*line;
 
-int main() {
-    int fd;                   // Descritor de arquivo
-    char buffer[BUFFER_SIZE]; // Buffer para armazenar os dados lidos
-    ssize_t bytes_read;       // Número de bytes lidos
+	/* chamando a função open, para abrir o arquivo */
+	fd = open("exemplo.txt", O_RDONLY);
 
-    // Abrir o arquivo para leitura
-    fd = open("exemplo.txt", O_RDONLY);
-    if (fd == -1) {
-        perror("Erro ao abrir o arquivo");
-        return 1;
-    }
+	/* Enquando não chega ao final do arquivo ou não há erros, chama a função gnl() */
+	while (1)
+	{
+		/* chama a funçao gnl() e retona uma única linha, se for lido mais coisa, 
+		armazena o excedente na variavel estatica*/
+		line = get_next_line(fd);
 
-    // Ler os dados do arquivo
-    bytes_read = read(fd, buffer, BUFFER_SIZE);
-    if (bytes_read == -1) {
-        perror("Erro ao ler o arquivo");
-        close(fd);
-        return 1;
-    }
+		/* Se o retorno da gnl() for nulo, porque retorna nulo? */
+		if (line == NULL)
+		{
+			printf("\nError or EOF: função retornando NULL");
+			return (1);
+		}
+		/* Se retorna a linha, e */
+		else
+		{
+			/* printa no terminal */
+			printf("%s", line);
 
-    // Adicionar o caractere nulo de término da string
-    buffer[bytes_read] = '\0';
+			/* desaloca a memoria que foi alocada dinamicamente para a linha anterior
+			para receber a alocaçao da proxima linha */
+			free(line);
+		}
+	}
 
-    // Exibir os dados lidos na tela
-    printf("Bytes Read:\n%ld\n", bytes_read);
-    printf("Conteúdo do arquivo:\n%s\n", buffer);
-
-    // Fechar o arquivo
-    close(fd);
-
-    return 0;
+	/* %d porque o FD é um inteiro, printa na tela o fd*/
+	printf("%d\n", fd);
+	return (0);
 }
