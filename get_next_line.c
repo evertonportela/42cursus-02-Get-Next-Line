@@ -6,7 +6,7 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:39:48 by evportel          #+#    #+#             */
-/*   Updated: 2023/05/29 16:27:39 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/06 20:59:58 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,37 @@
 char	*get_next_line(int fd)
 {
 /* **************************************************************************
-		fd                              - descritor de arquivo
- 		char	buffer[BUFFER_SIZE];	- Buffer para armazenar os dados lidos
-		ssize_t bytes_read;				- Número de bytes lidos
 ** ************************************************************************** */
-	char	*buffer;
-	ssize_t	bytes_read;
+	static char	*accumulator;
+	char		*buffer;
+	char		*current_line;
+
 /* **************************************************************************
-		Verifica o arquivo para leitura contém error ao abrir
-		E retorna nulo nesse caso, encerrando a função neste ponto da função
+	Verifica se o arquivo para leitura contém erro ao abrir
+	E retorna nulo nesse caso, encerrando a função neste ponto
 ** ************************************************************************** */
-	if (fd == -1)
-	{
-		return (0);
-	}
+	if (read(fd, 0, 0) == -1)
+		return (NULL);
+
 /* **************************************************************************
-		Verifica a leitura do arquivo e se contém erro ao ler
-		Retorna nulo, encerrando a função neste ponto da função
+	Aloca memória para conteúdo a ser lido, conforme o tamanho do buffer
+	informado na compilação
 ** ************************************************************************** */
-	buffer = 0;
-	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	if (bytes_read == -1)
-	{
-		return (0);
-	}
+	buffer = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
+
 /* **************************************************************************
-		Adicionar o caractere nulo de término da string
+	Se a alocação de memória falhar, encerra a função retornando nulo
 ** ************************************************************************** */
-	//buffer[bytes_read] = '\0';
+	if (!buffer)
+		return (NULL);
+
 /* **************************************************************************
-		Exibir os dados lidos na tela
-		Retornar os dados lidos
+
 ** ************************************************************************** */
-	return (buffer);
+	current_line = NULL;
+	accumulator = get_comp(fd, buffer, accumulator, current_line);
+	free(buffer);
+	current_line = ft_strnldup(accumulator);
+	accumulator = verif(accumulator);
+	return (current_line);
 }
