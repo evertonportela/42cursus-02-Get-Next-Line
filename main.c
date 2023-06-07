@@ -9,33 +9,21 @@ int	main(void)
 
 	/* chamando a função open, para abrir o arquivo */
 	fd = open("exemplo.txt", O_RDONLY);
-
-	/* Enquando não chega ao final do arquivo ou não há erros, chama a função gnl() */
-	while (1)
+	int contador = 5;
+	/* chama a funçao gnl() e retona uma única linha, se for lido mais coisa, 
+	armazena o excedente na variavel estatica*/
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
-		/* chama a funçao gnl() e retona uma única linha, se for lido mais coisa, 
-		armazena o excedente na variavel estatica*/
+		/* printa no terminal */
+		printf("%s", line);
+
+		/* desaloca a memoria que foi alocada dinamicamente para a linha anterior
+		para receber a alocaçao da proxima linha */
+		free(line);
 		line = get_next_line(fd);
-
-		/* Se o retorno da gnl() for nulo, porque retorna nulo? */
-		if (line == NULL)
-		{
-			printf("\nError or EOF: função retornando NULL");
-			return (1);
-		}
-		/* Se retorna a linha, e */
-		else
-		{
-			/* printa no terminal */
-			printf("%s", line);
-
-			/* desaloca a memoria que foi alocada dinamicamente para a linha anterior
-			para receber a alocaçao da proxima linha */
-			free(line);
-		}
 	}
-
-	/* %d porque o FD é um inteiro, printa na tela o fd*/
 	printf("%d\n", fd);
+	close(fd);
 	return (0);
 }

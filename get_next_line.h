@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:55:33 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/06 20:59:53 by evportel         ###   ########.fr       */
+/*   Created: 2023/06/07 16:55:07 by evportel          #+#    #+#             */
+/*   Updated: 2023/06/07 18:09:19 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,7 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
+
+char	*ft_strchr(const char *s, int c);
 
 #endif

@@ -5,47 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/25 11:39:48 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/06 20:59:58 by evportel         ###   ########.fr       */
+/*   Created: 2023/06/07 16:53:01 by evportel          #+#    #+#             */
+/*   Updated: 2023/06/07 19:55:37 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*ft_strchr(const char *s, int c)
+{
+	int	index;
+
+	index = 0;
+	c = (unsigned char)c;
+	if (s[index] == 0)
+		return ((char *)s);
+	while (s[index])
+	{
+		if (s[index] == c)
+		{
+			return ((char *)s + index);
+		}
+		else if (s[index + 1] == c)
+		{
+			return ((char *)s + (index + 1));
+		}
+		index++;
+	}
+	return (NULL);
+}
+
 char	*get_next_line(int fd)
 {
-/* **************************************************************************
-** ************************************************************************** */
-	static char	*accumulator;
-	char		*buffer;
-	char		*current_line;
+	char	*buffer;
+	ssize_t	buffer_read;
 
-/* **************************************************************************
-	Verifica se o arquivo para leitura contém erro ao abrir
-	E retorna nulo nesse caso, encerrando a função neste ponto
-** ************************************************************************** */
-	if (read(fd, 0, 0) == -1)
+// malloc o tamanho do buffer, suficiente ao buffer_size
+	buffer = (char *) malloc(BUFFER_SIZE);
+// malloc falhou, encerra a função e retorna nulo
+	if (buffer == NULL)
 		return (NULL);
-
-/* **************************************************************************
-	Aloca memória para conteúdo a ser lido, conforme o tamanho do buffer
-	informado na compilação
-** ************************************************************************** */
-	buffer = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
-
-/* **************************************************************************
-	Se a alocação de memória falhar, encerra a função retornando nulo
-** ************************************************************************** */
-	if (!buffer)
+// lê o conteúdo do arquivo
+	buffer_read = read(fd, buffer, BUFFER_SIZE);
+// se falhar na leitura do arquivo, encerra a função e retorna nulo
+	if (buffer_read <= 0)
 		return (NULL);
-
-/* **************************************************************************
-
-** ************************************************************************** */
-	current_line = NULL;
-	accumulator = get_comp(fd, buffer, accumulator, current_line);
-	free(buffer);
-	current_line = ft_strnldup(accumulator);
-	accumulator = verif(accumulator);
-	return (current_line);
+// adiciona caractere nulo ao fim da leitura para retornar uma string válida
+// retorna o buffer lido
+	return (buffer);
 }
