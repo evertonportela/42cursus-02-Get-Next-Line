@@ -9,7 +9,6 @@ int	main(void)
 
 	/* chamando a função open, para abrir o arquivo */
 	fd = open("exemplo.txt", O_RDONLY);
-	int contador = 5;
 	/* chama a funçao gnl() e retona uma única linha, se for lido mais coisa, 
 	armazena o excedente na variavel estatica*/
 	line = get_next_line(fd);
@@ -23,7 +22,11 @@ int	main(void)
 		free(line);
 		line = get_next_line(fd);
 	}
-	printf("%d\n", fd);
+	if (line[0] == "01234567890123456789012345678901234567890")
+		printf("OK");
+	else
+		printf("ERROR");
+//	printf("ID do fd -> %d\n", fd);
 	close(fd);
 	return (0);
 }
