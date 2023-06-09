@@ -12,20 +12,22 @@ int	main(void)
 	/* chama a funçao gnl() e retona uma única linha, se for lido mais coisa, 
 	armazena o excedente na variavel estatica*/
 	line = get_next_line(fd);
-	while (line != NULL)
-	{
-		/* printa no terminal */
-		printf("%s", line);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+/* ************************************************************************** */
+	// while (line != NULL)
+	// {
+	// 	/* printa no terminal */
+	// 	printf("%s", line);
 
-		/* desaloca a memoria que foi alocada dinamicamente para a linha anterior
-		para receber a alocaçao da proxima linha */
-		free(line);
-		line = get_next_line(fd);
-	}
-	if (line[0] == "01234567890123456789012345678901234567890")
-		printf("OK");
-	else
-		printf("ERROR");
+	// 	/* desaloca a memoria que foi alocada dinamicamente para a linha anterior
+	// 	para receber a alocaçao da proxima linha */
+	// 	free(line);
+	// 	line = get_next_line(fd);
+	// }
+/* ************************************************************************** */
+
 //	printf("ID do fd -> %d\n", fd);
 	close(fd);
 	return (0);

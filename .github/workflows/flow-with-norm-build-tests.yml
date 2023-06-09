@@ -3,7 +3,7 @@ name: flow-with-norm-build-tests
 on:
   push:
       branches:
-        - main
+        - master
 
 jobs:
   norminette:

@@ -6,7 +6,7 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 16:55:07 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/07 18:09:19 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:42:45 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-char	*get_next_line(int fd);
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
-char	*ft_strchr(const char *s, int c);
+char	*get_next_line(int fd);
 
 #endif
