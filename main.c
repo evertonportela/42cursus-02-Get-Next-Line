@@ -1,34 +1,27 @@
-#include <fcntl.h>				/* cntl = controle de arquivos = file control */
+#include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "get_next_line.h"
 
 int	main(void)
 {
-	int		fd;					/* Valores de 3 a 256 -> Valores de FD abertos, então utilizar inteiros */
-	char	*line;
+	int		fd;
+	char	*gnl;
 
-	/* chamando a função open, para abrir o arquivo */
-	fd = open("exemplo.txt", O_RDONLY);
-	/* chama a funçao gnl() e retona uma única linha, se for lido mais coisa, 
-	armazena o excedente na variavel estatica*/
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-/* ************************************************************************** */
-	// while (line != NULL)
-	// {
-	// 	/* printa no terminal */
-	// 	printf("%s", line);
+	fd = open("file_test.txt", O_RDONLY);
+	gnl = get_next_line(fd);
+	printf("%s", gnl);
+	gnl = get_next_line(fd);
+	printf("%s", gnl);
 
-	// 	/* desaloca a memoria que foi alocada dinamicamente para a linha anterior
-	// 	para receber a alocaçao da proxima linha */
-	// 	free(line);
-	// 	line = get_next_line(fd);
-	// }
-/* ************************************************************************** */
 
-//	printf("ID do fd -> %d\n", fd);
+	// printf("%c", gnl[26]);
+
 	close(fd);
 	return (0);
 }
+/*
+** clear && cc -Wall -Wextra -Werror *.c -D BUFFER_SIZE=1 && ./a.out | cat -e
+** clear && cc -Wall -Wextra -Werror *.c -D BUFFER_SIZE=42 && ./a.out | cat -e
+** clear && cc -Wall -Wextra -Werror *.c -D BUFFER_SIZE=10000 && ./a.out | cat -e
+*/
