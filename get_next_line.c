@@ -6,11 +6,16 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 19:27:50 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/11 13:47:10 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/11 18:08:18 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static void *free_work_memories(char **mem_line, char **mem_rest, char **mem_buffer);
+static char	*get_only_line(char **rest_content, char **buffer, char **line, int buffer_read);
+static char	*content_after_line(char *content);
+static char	*content_before_break_line(char *content);
 
 char	*get_next_line(int fd)
 /**
@@ -43,7 +48,7 @@ char	*get_next_line(int fd)
  * dependendo sempre do tamanho do BUFFER_SIZE informado na compilação
  * (+1) para inserir o \0 ao final da leitura do buffer.
 */
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+ 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 /**
  * como de praxe, se o malloc falhar, encerramos a função
 */
@@ -60,9 +65,7 @@ char	*get_next_line(int fd)
  * e mesmo assim não li todo o conteúdo)
  * e também não houver quebras de linha
 */
-	while (buffer_read == BUFFER_SIZE && (line_break_position(line) <= 0))
-	/* ************************ ponto de atenção nessa comparação ***** */
-
+	while (buffer_read == BUFFER_SIZE && (line_break_position(line) < 0))
 	{
 	/**
 	 * Fazemos a leitura do arquivo, colocando o conteúdo em buffer
@@ -75,16 +78,23 @@ char	*get_next_line(int fd)
 	*/
 		if (buffer_read < 0)
 			return (free_work_memories(&line, &rest_content, &buffer));
+		buffer[buffer_read] = '\0';
 	/**
 	 * Concatena o conteúdo lido de cada buffer a cada novo loop do enquanto
 	 * adicionando o conteúdo em line, 
 	 * para trabalharmos os filtros num outro momento
 	*/
-		return (get_only_line(&rest_content, &buffer, &line, &buffer_read));
+		line = ft_strjoin(line, buffer);
 	}
+	/** o retorno já puxa uma função importante
+	 * a função auxiliar, separa a primeira linha, se existir quebra de linha
+	 * do restante do conteúdo e retorna apenas esse primeiro pedaço
+	 */
+	return (get_only_line(&rest_content, &buffer, &line, buffer_read));
 }
 
-static void *free_work_memories(char **mem_line, char **mem_rest, char **mem_buffer)
+static void *free_work_memories(char **mem_line, char **mem_rest,
+	char **mem_buffer)
 {
 /**
  * Libera as memórias alocadas, 
@@ -128,7 +138,7 @@ static void *free_work_memories(char **mem_line, char **mem_rest, char **mem_buf
 }
 
 static char	*get_only_line(char **rest_content, char **buffer,
-	char **line, char **buffer_read)
+	char **line, int buffer_read)
 /**
  * Ultima parte da função get_next_line. Libera as memórias se necessário,
  * em seguida, vincula a linha de leitura atual que vai ser retornada,
@@ -184,18 +194,17 @@ static char	*content_after_line(char *content)
 	position = line_break_position(content);
 	/** Se a posição retornada for menor ou igual a zero, 
 	 * significa que a linha está vazia então retorna null*/
-	if (position <= 0)
+	if (position < 0)
 		return (NULL);
-	/* ************************ ponto de atenção nessa comparação ***** */
 	/** vamos alocar uma memória para receber todo o conteudo após o \n */
-	size = ft_strlen(content) - position;
-	content_after = malloc(size * sizeof(char));
+	size = ft_strlen(content);
+	content_after = malloc((size - position) * sizeof(char));
 	/** de praxe, se o malloc falhar, retorna null */
 	if (content_after == NULL)
 		return (NULL);
 	content_after[size - 1] = '\0';
 	ft_strlcpy(content_after, content + position + 1, size - position);
-	/* **** ponto de atenção na conta do terceiro parametro ******** */
+	/* ok **** ponto de atenção na conta do terceiro parametro ******** */
 	return (content_after);
 }
 
@@ -214,11 +223,10 @@ static char	*content_before_break_line(char *content)
 	/** se o conteúdo é nulo, encerra a função e retorna nulo */
 	if (!content)
 		return (NULL);
-	/** Se a posição retornada for menor ou igual a zero, 
+	/** Se a posição retornada for menor, 
 	 * significa que a linha contém quebra, e retorna o conteúdo inteiro */
-	if (position <= 0)
+	if (position < 0)
 		return (content);
-	/* ************************ ponto de atenção nessa comparação ***** */
 	/** vamos alocar uma memória para receber todo o conteudo antes do \n 
 	 * e um espaço para o próprio \n + mais espaço para o \0	*/
 	content_before = malloc((position + 2) + sizeof(char));
@@ -226,8 +234,12 @@ static char	*content_before_break_line(char *content)
 	if (content_before == NULL)
 		return (NULL);
 	/** essa atribuição é realmente necessária? se o strlpcy tbm coloca \0 ao final
-	 * vale testar todas as 
+	 * vale testar todas as possibilidades
 	 */
 	content_before[position + 1] = '\0';
+	/** fazer a cópia das informações para a variável que vai ser retornada */
 	ft_strlcpy(content_before, content, position + 2);
+	/** liberar a memória do buffer de conteúdo para possível próxima chamada */
+	free(content);
+	return (content_before);
 }
