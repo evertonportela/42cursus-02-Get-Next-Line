@@ -6,7 +6,7 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 19:27:50 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/11 00:33:38 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/11 13:47:10 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,11 @@ static char	*get_only_line(char **rest_content, char **buffer,
 	 * desconsiderando a linha atual, que será retornada. 
 	 * Ou seja, só pega conteúdo depois da quebra de linha */
 	*rest_content = content_after_line(*line);
+	/** salva o conteúdo do início do arquivo,
+	 * antes do primeiro \n, considerando apenas conteúdo que será retornado */
+	*line = content_before_break_line(*line);
+	/** e retornamos apenas esse primeiro pedaço de conteúdo */
+	return (*line);
 }
 
 static char	*content_after_line(char *content)
@@ -170,6 +175,7 @@ static char	*content_after_line(char *content)
 */
 {
 	int		position;
+	int		size;
 	char	*content_after;
 
 	/** já temos uma funçao que busca o \n
@@ -191,4 +197,37 @@ static char	*content_after_line(char *content)
 	ft_strlcpy(content_after, content + position + 1, size - position);
 	/* **** ponto de atenção na conta do terceiro parametro ******** */
 	return (content_after);
+}
+
+static char	*content_before_break_line(char *content)
+/**
+ * recorta apenas o início do conteúdo, antes do primeiro \n
+*/
+{
+	int		position;
+	char	*content_before;
+
+	/** já temos uma funçao que busca o \n
+	 * vamos aproveita-la para achar a posiçao da quebra de linha
+	*/
+	position = line_break_position(content);
+	/** se o conteúdo é nulo, encerra a função e retorna nulo */
+	if (!content)
+		return (NULL);
+	/** Se a posição retornada for menor ou igual a zero, 
+	 * significa que a linha contém quebra, e retorna o conteúdo inteiro */
+	if (position <= 0)
+		return (content);
+	/* ************************ ponto de atenção nessa comparação ***** */
+	/** vamos alocar uma memória para receber todo o conteudo antes do \n 
+	 * e um espaço para o próprio \n + mais espaço para o \0	*/
+	content_before = malloc((position + 2) + sizeof(char));
+	/** de praxe, se o malloc falhar, retorna null */
+	if (content_before == NULL)
+		return (NULL);
+	/** essa atribuição é realmente necessária? se o strlpcy tbm coloca \0 ao final
+	 * vale testar todas as 
+	 */
+	content_before[position + 1] = '\0';
+	ft_strlcpy(content_before, content, position + 2);
 }
