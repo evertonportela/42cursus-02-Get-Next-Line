@@ -6,7 +6,7 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:14:57 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/10 18:32:25 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/11 17:00:32 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_strdup(const char *str)
 	index = 0;
 	while (index < lenght)
 	{
-		new_str[index] = str[index];
+		((char *) new_str)[index] = ((char *) str)[index];
 		index++;
 	}
 	return (new_str);
