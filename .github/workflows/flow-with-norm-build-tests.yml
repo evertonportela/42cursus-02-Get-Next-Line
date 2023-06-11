@@ -27,8 +27,8 @@ jobs:
       
       - name: Test with norminette
         run: norminette
-  build:
-    name: build
+  test:
+    name: test
     needs: norminette
     runs-on: ubuntu-20.04
     defaults:

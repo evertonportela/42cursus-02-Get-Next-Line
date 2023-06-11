@@ -6,7 +6,7 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 19:26:18 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/09 21:54:38 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/10 23:33:01 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,11 @@
 # endif
 
 char	*get_next_line(int fd);
+
+size_t	ft_strlen(const char *s);
+char	*ft_strdup(const char *str);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+int		line_break_position(char *string)
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:14:57 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/10 01:53:23 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/10 18:32:25 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	size_t	count;
 
 	if (size == 0)
-	{
 		return (ft_strlen(src));
-	}
 	count = 0;
 	while (count < (size - 1) && src[count] != '\0')
 	{
@@ -104,4 +102,32 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	}
 	dest[count] = '\0';
 	return (ft_strlen(src));
+}
+
+int	line_break_position(char *string)
+/**
+   * verifica uma string em busca de um caractere de linha única (\n).
+   * se encontrado, retorna sua posição (>= 0).
+   * caso contrário, retorna -1.
+*/
+{
+	int	index;
+	if (!string)
+		return (-1);
+	index = 0;
+/**
+ * enquanto a string for válida, buscamos um '\n'
+ * um contador é incrementado durante essa busca
+ * quando encontramos a quebra de linha, 
+ * retornamos o valor guardado no contador
+ * (equivalente a posição da quebra de linha)
+*/
+	while (string[index])
+	{
+		if (string[index] == '\n')
+			return (index);
+		index++;
+	}
+/* o retorno é (-1) se nenhuma quebra de linha for encontrada */
+	return (-1);
 }
