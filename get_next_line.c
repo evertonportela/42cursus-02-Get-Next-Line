@@ -6,7 +6,7 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 19:27:50 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/10 23:52:53 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/11 00:33:38 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,8 @@ static char	*content_after_line(char *content)
   * chamadas de função.
 */
 {
-	int	position;
+	int		position;
+	char	*content_after;
 
 	/** já temos uma funçao que busca o \n
 	 * vamos aproveita-la para achar a posiçao da quebra de linha
@@ -180,6 +181,14 @@ static char	*content_after_line(char *content)
 	if (position <= 0)
 		return (NULL);
 	/* ************************ ponto de atenção nessa comparação ***** */
-	
-
+	/** vamos alocar uma memória para receber todo o conteudo após o \n */
+	size = ft_strlen(content) - position;
+	content_after = malloc(size * sizeof(char));
+	/** de praxe, se o malloc falhar, retorna null */
+	if (content_after == NULL)
+		return (NULL);
+	content_after[size - 1] = '\0';
+	ft_strlcpy(content_after, content + position + 1, size - position);
+	/* **** ponto de atenção na conta do terceiro parametro ******** */
+	return (content_after);
 }
