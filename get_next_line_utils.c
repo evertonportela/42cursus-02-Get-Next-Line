@@ -6,7 +6,7 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:14:57 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/11 17:00:32 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:45:47 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,22 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	lenght_s1 = ft_strlen(s1);
 	lenght_s2 = ft_strlen(s2);
 	new_str = (char *)malloc((lenght_s1 + lenght_s2 + 1) * sizeof(char));
-	if (!new_str)
+	if (new_str == NULL)
 		return (NULL);
 	count = 0;
-	while (count < lenght_s1)
+	while (s1[count] != '\0')
 	{
 		new_str[count] = s1[count];
 		count++;
 	}
 	count = 0;
-	while (count < lenght_s2)
+	while (s2[count] != '\0')
 	{
 		new_str[count + lenght_s1] = s2[count];
 		count++;
 	}
-	new_str[count + lenght_s1] = '\0';
+	new_str[lenght_s1 + lenght_s2] = '\0';
+	free((char *)s1);
 	return (new_str);
 }
 
@@ -112,22 +113,15 @@ int	line_break_position(char *string)
 */
 {
 	int	index;
+
 	if (!string)
 		return (-1);
 	index = 0;
-/**
- * enquanto a string for válida, buscamos um '\n'
- * um contador é incrementado durante essa busca
- * quando encontramos a quebra de linha, 
- * retornamos o valor guardado no contador
- * (equivalente a posição da quebra de linha)
-*/
 	while (string[index])
 	{
 		if (string[index] == '\n')
 			return (index);
 		index++;
 	}
-/* o retorno é (-1) se nenhuma quebra de linha for encontrada */
 	return (-1);
 }
