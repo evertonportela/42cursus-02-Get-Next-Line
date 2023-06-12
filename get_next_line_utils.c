@@ -6,7 +6,7 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:14:57 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/11 20:45:47 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:08:35 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	ft_strlen(const char *s)
 /**
- * Retorna o tamanho de uma string válida
+* Returns the length of a valid string
 */
 {
 	unsigned long int	length;
@@ -31,7 +31,7 @@ size_t	ft_strlen(const char *s)
 
 char	*ft_strdup(const char *str)
 /**
- * Duplica uma string em outra. aloca memória usando malloc.
+* Duplicates one string into another. allocates memory using malloc.
 */
 {
 	char			*new_str;
@@ -54,8 +54,8 @@ char	*ft_strdup(const char *str)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 /**
-  * concatena duas strings de comprimento fixo em uma.
-  * aloca memória usando malloc.
+* concatenates two fixed-length strings into one.
+* allocates memory using malloc.
 */
 {
 	char	*new_str;
@@ -87,8 +87,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 /**
-  * copia (até tamanho bytes) o conteúdo de uma string (src) em outra (dst).
-  * substitui o conteúdo de dst.
+* copies (up to size bytes) the content of a string (src) into another (dst).
+* replaces the contents of dst.
 */
 {
 	size_t	count;
@@ -107,9 +107,9 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 
 int	line_break_position(char *string)
 /**
-   * verifica uma string em busca de um caractere de linha única (\n).
-   * se encontrado, retorna sua posição (>= 0).
-   * caso contrário, retorna -1.
+* checks a string for a single-line character (\n).
+* if found, returns its position (>= 0).
+* otherwise returns -1.
 */
 {
 	int	index;

@@ -6,7 +6,7 @@
 /*   By: evportel <evportel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 19:27:50 by evportel          #+#    #+#             */
-/*   Updated: 2023/06/11 20:13:52 by evportel         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:06:59 by evportel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static char	*content_before_break_line(char *content);
 
 char	*get_next_line(int fd)
 /**
-  * Lê de um descritor de arquivo e retorna uma linha lida por chamada,
-  * incluindo \n, a menos que EOF (encontre o fim do arquivo)
-  * e nenhum \n está presente, 
-  * nesse caso tudo o que foi lido é retornado imediatamente.
+* Reads from a file descriptor and returns one line read per call,
+* including \n unless EOF (find end of file)
+* and no \n is present,
+* in this case everything that was read is returned immediately.
 */
 {
 	static char	*rest_content;
@@ -53,7 +53,7 @@ char	*get_next_line(int fd)
 static void	*free_work_memories(char **mem_line, char **mem_rest,
 	char **mem_buffer)
 /**
- * Libera as memórias alocadas, limpando as memórias usadas em trabalhos nas outras funções
+* Releases allocated memories, clearing memories used in jobs in other functions
 */
 {
 	if (mem_line)
@@ -80,10 +80,10 @@ static void	*free_work_memories(char **mem_line, char **mem_rest,
 static char	*get_only_line(char **rest_content, char **buffer,
 	char **line, int buffer_read)
 /**
- * Ultima parte da função get_next_line. Libera as memórias se necessário,
- * em seguida, vincula a linha de leitura atual que vai ser retornada,
- * e armazena o que sobrou do buffer na variável estática `rest_content`
- * para ter o início da próxima linha salvo para a próxima chamada de função.
+* Last part of the get_next_line function. Release the memories if necessary,
+* then binds the current read line that is going to be returned,
+* and stores what's left of the buffer in the static variable `rest_content`
+* to have the start of the next line saved for the next function call.
 */
 {
 	if (buffer_read == 0)
@@ -101,10 +101,10 @@ static char	*get_only_line(char **rest_content, char **buffer,
 
 static char	*content_after_line(char *content)
 /**
-  * Todo o resto dentro do buffer após o primeiro \n encontrado
-  * é salvo na variável estática `rest`. 
-  * Isso garante que o início da próxima linha não se perca entre
-  * chamadas de função.
+* Everything else inside the buffer after the first \n found
+* is saved in the static variable `rest`.
+* This ensures that the start of the next line is not lost between
+* function calls.
 */
 {
 	int		position;
@@ -125,7 +125,7 @@ static char	*content_after_line(char *content)
 
 static char	*content_before_break_line(char *content)
 /**
- * recorta apenas o início do conteúdo, antes do primeiro \n
+* clips only the beginning of the content, before the first \n
 */
 {
 	int		position;
