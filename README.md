@@ -1,73 +1,48 @@
-# 42cursus - 03. Ft_printf
+# 42cursus - 02. Get_Next_Line
 <p align="center">
-	<a href="#"><img src="https://game.42sp.org.br/static/assets/achievements/ft_printfn.png"/></a>
+	<a href="#"><img src="https://game.42sp.org.br/static/assets/achievements/get_next_linee.png"/></a>
 </p>
 <p align="center">
-	<a href="https://github.com/JaeSeoKim/badge42"><img src="https://badge42.vercel.app/api/v2/clgz3vp5u001608l5gzuhclek/project/3131263" alt="evportel's 42 ft_printf Score" /></a>
+	<a href="https://github.com/JaeSeoKim/badge42"><img src="https://badge42.vercel.app/api/v2/clgz3vp5u001608l5gzuhclek/project/3118092" alt="evportel's 42 get_next_line Score" /></a>
 </p>
 
-### Porque `ft_putnbr()` e `ft_putstr()` não são suficientes ;)
+### Ler uma linha de um fd é muito tedioso ;D
 
-O objetivo deste projeto é bastante simples. Você recodificará `printf()`. Você aprenderá principalmente sobre o uso de um número variável de argumentos. Quão legal é isso?? É realmente muito legal :)
-
-Você descobrirá uma função C popular e versátil: `printf()`. Este exercício é uma ótima oportunidade para melhorar suas habilidades de programação. É de dificuldade moderada.
-Você descobrirá funções variádicas em C.
-A chave para um `ft_printf` bem-sucedido é um código bem estruturado e extensível.
+Este projeto trata da programação de uma função que retorna uma linha lida de um descritor de arquivo.
 
 <strong>Developed during the step cadet, Jun 2023 - The 42 Cursus.</strong><br>
 
 <p>
-	<h3>Recodificar a função printf() da libc. </h3>
+	Not only will this project allow you to add a very convenient function to your collection, but it will also make you learn a very interesting new concept in C programming: static variables.
 </p>
 
-O protótipo de `ft_printf()` é: `int ft_printf(const char *, ...);`
-- [ ]  Não foi implementado o gerenciamento de buffer do `printf()` original.
-- [ ]  A função lida com as seguintes conversões: `c s p d i u x X %`
+The prototype of `get_next_line()` is: `char *get_next_line(int fd);`
 
-Você deve implementar as seguintes conversões:
+[ ] Repeated calls (eg using a loop) to your get_next_line() function should allow you to read the text file pointed to by the file descriptor, one line at a time.
+[ ] The line returned must include the final \n character, unless the end of the file is reached and does not end with a \n character.
+[ ] !!! A good start would be to know what a static variable is.
 
-`%c` Imprime um único caractere.
+### Functions from `get_next_line.c`
 
-`%s` Imprime uma `string` (conforme definido pela convenção C comum).
+- [`get_next_line(int fd)`](/get_next_line.c) - Reads from a file descriptor and returns one line read per call, including \n, unless EOF (find end of file) and no \n is present, in which case whatever was read is returned immediately.
+- [`free_work_memories`](/get_next_line.c) - Frees the allocated memories, clearing the memories used in work on other functions.
+- [`get_only_line`](/get_next_line.c) - Last part of the get_next_line function. Free the memories if necessary, then bind the current read line to be returned, and store what's left of the buffer in the `rest_content` static variable to have the beginning of the next line saved for the next function call.
+- [`content_after_line`](/get_next_line.c) - Everything else inside the buffer after the first \n found is saved in the static variable `rest`. This ensures that the start of the next line isn't lost between function calls.
+- [`content_before_break_line`](/get_next_line.c) - Cuts only the beginning of the content, before the first \n.
 
-`%p` O argumento do ponteiro `void *` deve ser impresso no formato hexadecimal.
+### Functions from `get_next_line_utils.c`
 
-`%d` Imprime um número decimal (base 10).
-
-`%i` Imprime um inteiro na base 10.
-
-`%u` Imprime um número decimal sem sinal (base 10).
-
-`%x` Imprime um número em formato hexadecimal (base 16) em minúsculas.
-
-`%X` Imprime um número em formato maiúsculo hexadecimal (base 16).
-
-`%%` Imprime um sinal de porcentagem.
-
-### Functions from `ft_printf.c`
-
-- [`ft_printf`](/ft_printf.c)	- This is the main function of the file. The loop looks for the special character '%', while it doesn't find it, it prints normally. When it finds it, it sends the specifier character reference to the function that handles the formatting.
-- [`show_of_parameter`](/ft_printf.c)	- Function works by identifying the formatting specifier character and directing to the correct printing of the parameter passed by the va_list variable.
-- [`add_one_more`](/ft_printf.c)	- This function is dedicated to incrementing a static counter that runs through the entire execution of the function, adding 1 to each impression on the display. The flag serves to reset the static variable, informing 0, in cases where the ft_printf function is called several times. Flag 1, just keep adding one more to each character printed.
-
-### Functions from `ft_printf_utils_1.c`
-- [`ft_putchar`](/ft_printf_utils_1.c)	- Prints a single character, within the standard ascii table, and adds 1 to the static variable.
-- [`ft_putstr`](/ft_printf_utils_1.c)	- Prints a valid string, reusing the ft_putchar function to print each character. When null, expressly prints the word 'null'.
-- [`ft_putptr`](/ft_printf_utils_1.c)	- Prints in hexadecimal format, the memory address of the referenced pointer, prefixed with the characters '0x'. Converting an 'unsigned long' parameter to hexadecimal. When null, expressly write the word 'nil'.
-- [`ft_putnbr`](/ft_printf_utils_1.c)	- Prints an integer parameter, including its sign, if it is a negative decimal.
-- [`ft_putnbr_unsigned`](/ft_printf_utils_1.c)	- Prints an integer parameter, converting it to an unsigned decimal.
- 
-
-Compilation command:
-``` sh
-make
-```
+- [`ft_strlen`](/get_next_line_utils.c)	- Returns the length of a valid string.
+- [`ft_strdup`](/get_next_line_utils.c)	- Duplicates one string into another. allocates memory using malloc.
+- [`ft_strjoin`](/get_next_line_utils.c) - Concatenates two fixed-length strings into one. Allocate memory using malloc.
+- [`ft_strlcpy`](/get_next_line_utils.c) - Copies (up to size bytes) the content of a string (src) into another (dst). Replaces the contents of dst.
+- [`line_break_position`](/get_next_line_utils.c) - Checks a string for a single-line character (\n). If found, returns its position (>= 0). Otherwise, it returns -1.
 
 ### Testes
 <p>I used some community tests 42:<p/>
-<p>From Paulo Santana's repository - https://github.com/paulo-santana/ft_printf_tester.<br/> And from the Tripouille repository - https://github.com/Tripouille/printfTester</p>
+<p>From Tripouille repository - git clone https://github.com/Tripouille/gnlTester.git</p>
 <p>
-	You can view these tests on the Actions tab, where I created a Workflow to verify the code in accordance with the 42 standard, the generation of the library with the printf code and the two tests mentioned above.
+	You can view these tests on the Actions tab, where I created a Workflow to verify the code in accordance with the 42 standard and the tests mentioned above.
 <p/>
 
 [![flow-with-norm-build-tests](https://github.com/evertonportela/42cursus-02-Get-Next-Line/actions/workflows/flow-with-norm-build-tests.yml/badge.svg)](https://github.com/evertonportela/42cursus-02-Get-Next-Line/actions/workflows/flow-with-norm-build-tests.yml)
