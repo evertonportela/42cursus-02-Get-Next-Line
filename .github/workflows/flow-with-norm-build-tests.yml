@@ -7,6 +7,7 @@ on:
 
 jobs:
   norminette:
+    name: norminette
     runs-on: ubuntu-20.04
     defaults:
       run:
@@ -27,8 +28,8 @@ jobs:
       
       - name: Test with norminette
         run: norminette
-  test:
-    name: test
+  build:
+    name: build
     needs: norminette
     runs-on: ubuntu-20.04
     defaults:
@@ -39,3 +40,24 @@ jobs:
       
       - name: make
         run: make
+  test01:
+    name: test tripouille
+    needs: build
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install Valgrind
+        run: |
+          sudo apt-get update
+          sudo apt-get install valgrind -y
+
+      - name: Cloning Tester Tripouille - Mandatory
+        run: |
+          git clone https://github.com/Tripouille/gnlTester.git
+          cd gnlTester
+          export TERM=xterm-256color
+          make m
