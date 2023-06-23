@@ -16,11 +16,11 @@ Este projeto trata da programação de uma função que retorna uma linha lida d
 	Not only will this project allow you to add a very convenient function to your collection, but it will also make you learn a very interesting new concept in C programming: static variables.
 </p>
 
-The prototype of `get_next_line()` is: `char *get_next_line(int fd);`
-
-[ ] Repeated calls (eg using a loop) to your get_next_line() function should allow you to read the text file pointed to by the file descriptor, one line at a time.
-[ ] The line returned must include the final \n character, unless the end of the file is reached and does not end with a \n character.
-[ ] !!! A good start would be to know what a static variable is.
+<p>
+	The prototype of `get_next_line()` is: `char *get_next_line(int fd);`<br/>
+	Repeated calls (eg using a loop) to your get_next_line() function should allow you to read the text file pointed to by the file descriptor, one line at a time.<br/>
+	The line returned must include the final \n character, unless the end of the file is reached and does not end with a \n character.<br/>
+	!!! A good start would be to know what a static variable is.<p/>
 
 ### Functions from `get_next_line.c`
 
