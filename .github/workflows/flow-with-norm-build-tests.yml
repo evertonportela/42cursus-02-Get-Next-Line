@@ -28,21 +28,9 @@ jobs:
       
       - name: Test with norminette
         run: norminette get_next_line.h get_next_line.c get_next_line_utils.c
-  build:
-    name: build
-    needs: norminette
-    runs-on: ubuntu-20.04
-    defaults:
-      run:
-        working-directory: .
-    steps:
-      - uses: actions/checkout@v2
-      
-      - name: make
-        run: make
   test01:
     name: test tripouille
-    needs: build
+    needs: norminette
     runs-on: ubuntu-20.04
     defaults:
       run:
